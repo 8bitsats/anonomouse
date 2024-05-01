@@ -3,16 +3,16 @@ const answer = 'THETICKERISRUNES'; // Correct answer
 const revealNumber = '69420'; // Number to reveal upon correct answer
 
 function checkCode() {
-    const userInput = document.getElementById('runicInput').value.toUpperCase();
+    const userInput = document.getElementById('runicInput').value.toUpperCase(); // Convert input to uppercase
     const resultContainer = document.getElementById('result');
 
     if (userInput === answer) {
         document.getElementById('runicInput').disabled = true;
         explode(); // Trigger explosion effect
         setTimeout(() => {
-            resultContainer.innerHTML = `<h1>${revealNumber}</h1>`;
+            resultContainer.innerHTML = `<h1 style="font-size: 100px; color: red;">${revealNumber}</h1>`; // Display the number in large, red text
             window.open('https://presale.thetickerisrunes.com', '_blank'); // Open the specified URL
-        }, 2000); // Delay the link opening and number display for effect
+        }, 1000); // Delay the link opening and number display for effect
     } else {
         resultContainer.textContent = 'Incorrect answer, try again!';
     }
