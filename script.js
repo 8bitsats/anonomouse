@@ -1,5 +1,5 @@
 // Game logic
-const codes = ['RUNES', 'MAGIC', 'QUEST'];  // Sequence of codes for each stage
+const codes = ['thetickerisrunes'];  // Sequence of codes for each stage
 const hints = [
     "Hint: It's what you are decoding!",
     "Hint: What do wizards cast?",
