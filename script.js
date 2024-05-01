@@ -1,3 +1,4 @@
+// Game logic
 const codes = ['RUNES', 'MAGIC', 'QUEST'];  // Sequence of codes for each stage
 const hints = [
     "Hint: It's what you are decoding!",
@@ -15,7 +16,11 @@ function checkCode() {
         currentStage++;
         if (currentStage === codes.length) {
             document.getElementById('runicInput').disabled = true;
-            resultContainer.innerHTML = `Congratulations! You have discovered the treasure.<br><a href="https://presale.thetickerisrunes.com" target="_blank">Click here to claim your treasure</a>`;
+            explode(); // Trigger explosion effect
+            setTimeout(() => {
+                window.open('http://presale.thetickerisrunes.com/', '_blank'); // Open the specified URL
+                resultContainer.innerHTML = `Congratulations! You have discovered the treasure.<br><a href="http://presale.thetickerisrunes.com/" target="_blank">Click here to claim your treasure</a>`;
+            }, 2000); // Delay the link opening and message display for effect
         } else {
             resultContainer.textContent = 'Correct! Proceed to the next code.';
             hintContainer.textContent = '';
@@ -26,7 +31,31 @@ function checkCode() {
     }
     document.getElementById('runicInput').value = ''; // Clear input for next attempt
 }
-// Add existing code check function and variable declarations here...
+
+function explode() {
+    const explosion = document.createElement('div');
+    explosion.className = 'explosion';
+    document.body.appendChild(explosion);
+    setTimeout(() => explosion.remove(), 1000); // Remove explosion effect after 1 second
+}
+
+function enterRaffle() {
+    const walletInput = document.getElementById('walletInput').value.trim();
+    const raffleResultContainer = document.getElementById('raffleResult');
+
+    if (validateBitcoinWallet(walletInput)) {
+        raffleResultContainer.innerHTML = `Successfully entered the raffle with wallet: ${walletInput}`;
+        // Additional backend logic for raffle entry would go here
+    } else {
+        raffleResultContainer.textContent = 'Invalid Bitcoin wallet address. Please try again.';
+    }
+}
+
+// Enhanced Bitcoin wallet validation
+function validateBitcoinWallet(wallet) {
+    const regex = /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/; // Simple regex for wallet validation
+    return regex.test(wallet);
+}
 
 // Matrix Effect Script
 const canvas = document.getElementById('matrixCanvas');
@@ -34,14 +63,10 @@ const ctx = canvas.getContext('2d');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-const runicSymbols = '69420RUNESMAGICQUEST';
+const runicSymbols = '69420PRESALE.THETICKERISRUNES.COM'; // Updated symbols
 const fontSize = 16;
-const columns = canvas.width / fontSize; // Number of columns for the rain
-const rainDrops = [];
-
-for (let x = 0; x < columns; x++) {
-    rainDrops[x] = 1;
-}
+const columns = Math.floor(canvas.width / fontSize);
+const rainDrops = Array.from({ length: columns }, () => 1);
 
 function draw() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
@@ -52,7 +77,7 @@ function draw() {
     for (let i = 0; i < rainDrops.length; i++) {
         const text = runicSymbols.charAt(Math.floor(Math.random() * runicSymbols.length));
         ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-        
+
         if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
             rainDrops[i] = 0;
         }
